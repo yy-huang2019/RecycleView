@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    //实现分割线
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        android:background="#fff">
+
+        //防止CardView影响布局效果，应内部再包含一层
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:id="@+id/icon"
+                android:layout_marginLeft="18dp"
+                android:layout_height="80dp"
+                android:src="@mipmap/pic_02"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我是标题"
+                android:textSize="30sp"
+                android:id="@+id/title"
+                android:layout_centerVertical="true"
+                android:layout_below="@id/icon"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

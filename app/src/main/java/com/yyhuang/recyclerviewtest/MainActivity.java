@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -116,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.stagger_view_horizontal_reverse:
 
+                break;
+
+
+                //多种条目类型的点击
+            case R.id.more_type:
+                //跳到一个新的Activity里面去展示这个界面
+                Intent intent = new Intent(this,MoreTypeActivity.class);
+                startActivity(intent);
                 break;
         }
 

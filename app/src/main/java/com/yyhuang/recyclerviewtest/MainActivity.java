@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<ItemBean> mData;
     RecycleViewBaseAdapter mAdapter;
+    private SwipeRefreshLayout refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //1.要有RecycleView控件，找到该控件
         recyclerView = this.findViewById(R.id.RecyclerView);
+        refresh = this.findViewById(R.id.refresh_layout);
         //2.准备数据
         /**
          * 现实开发中，我们的数据一般是从网络上获取
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         initData();
         //首次显示
         showList(true, false);
+
+        handleDownPullRefresh();
     }
 
     private void initData() {
@@ -147,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化点击事件
         initListener();
+
+
     }
 
 
@@ -176,6 +184,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Toast.makeText(MainActivity.this,"您点击的是第"+position+"个条目",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void handleDownPullRefresh(){
+        refresh.setColorSchemeResources(R.color.design_default_color_error,R.color.teal_700,R.color.design_default_color_on_secondary);
+        refresh.setEnabled(true);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //执行刷新数据的操作
+                /**
+                 * 当我们在顶部下拉的时候，这个方法就会被发出
+                 * 但是，这个方法是MainThread主线程，不可以执行耗时操作
+                 * 一般来说，我们去请求数据应该再开一个线程去获取
+                 */
+                //添加数据
+                ItemBean data = new ItemBean();
+                data.icon = R.mipmap.pic_04;
+                data.title = "新来滴！";
+                mData.add(0,data);
+                //更新UI
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyDataSetChanged();
+                        refresh.setRefreshing(false);
+                    }
+                },3000);
             }
         });
     }

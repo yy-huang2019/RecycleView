@@ -190,7 +190,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void handleDownPullRefresh(){
+        //下拉刷新颜色的变化
         refresh.setColorSchemeResources(R.color.design_default_color_error,R.color.teal_700,R.color.design_default_color_on_secondary);
+
         refresh.setEnabled(true);
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
